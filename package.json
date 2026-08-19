@@ -21,7 +21,7 @@
     "lint:fix": "eslint ./src --ext js,jsx --fix",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "start:e2e": "cross-env PORT=3001 BROWSER=none react-scripts start",
+    "start:e2e": "cross-env PORT=3001 BROWSER=none FAST_REFRESH=false react-scripts start",
     "e2e": "start-server-and-test start:e2e http://localhost:3001 cypress:run",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -62,5 +62,8 @@
     "@storybook/react-webpack5": "^7.6.17",
     "storybook": "^7.6.17",
     "webpack": "^5.90.3"
+  },
+  "overrides": {
+    "react-refresh": "0.11.0"
   }
 }
