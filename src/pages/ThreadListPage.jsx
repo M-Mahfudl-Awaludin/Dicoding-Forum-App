@@ -5,24 +5,35 @@ import {
   asyncToggleUpVoteThread,
   asyncToggleDownVoteThread,
 } from '../state/threads/action';
+import { asyncReceiveUsers } from '../state/users/action';
 import ThreadItem from '../components/threads/ThreadItem';
 import Loading from '../components/ui/Loading';
 import './ThreadListPage.css';
 
 function ThreadListPage() {
-  const { threads, loading, error, authUser } = useSelector((state) => state);
+  const {
+    threads, users, loading, error, authUser,
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
     dispatch(asyncReceiveThreads());
+    dispatch(asyncReceiveUsers());
   }, [dispatch]);
 
-  const categories = ['all', ...new Set(threads.map((thread) => thread.category).filter(Boolean))];
+  const threadsWithOwner = threads.map((thread) => ({
+    ...thread,
+    owner: users.find((user) => user.id === thread.ownerId) || thread.owner,
+  }));
+
+  const categories = ['all', ...new Set(
+    threadsWithOwner.map((thread) => thread.category).filter(Boolean),
+  )];
 
   const filteredThreads = selectedCategory === 'all'
-    ? threads
-    : threads.filter((thread) => thread.category === selectedCategory);
+    ? threadsWithOwner
+    : threadsWithOwner.filter((thread) => thread.category === selectedCategory);
 
   const handleUpVote = (threadId) => {
     dispatch(asyncToggleUpVoteThread(threadId));
