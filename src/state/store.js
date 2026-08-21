@@ -7,6 +7,7 @@ import {
   errorReducer,
 } from './threads/reducer';
 import commentsReducer from './comments/reducer';
+import usersReducer from './users/reducer';
 import {
   leaderboardsReducer,
   loadingReducer as leaderboardsLoadingReducer,
@@ -21,6 +22,7 @@ const store = configureStore({
     loading: loadingReducer,
     error: errorReducer,
     comments: commentsReducer,
+    users: usersReducer,
     leaderboards: leaderboardsReducer,
     leaderboardsLoading: leaderboardsLoadingReducer,
     leaderboardsError: leaderboardsErrorReducer,
