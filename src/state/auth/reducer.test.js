@@ -48,6 +48,6 @@ describe('authUserReducer', () => {
 
     const nextState = authUserReducer(initialState, action);
 
-    expect(nextState).toEqual(null);
+    expect(nextState).toEqual('SENGAJA_SALAH');
   });
 });
