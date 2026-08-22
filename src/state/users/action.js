@@ -18,11 +18,10 @@ function asyncReceiveUsers() {
     try {
       const response = await api.getAllUsers();
       dispatch(receiveUsersAction(response.data.users));
-    } catch (error) {
+    } catch {
       // The user list only enriches thread/comment authors with name &
       // avatar. If it fails, ThreadItem already falls back to "Unknown",
-      // so the page remains usable — just log it instead of throwing.
-      console.warn('Failed to load users list:', error.message);
+      // so the page remains usable — no need to surface this to the user.
     }
   };
 }

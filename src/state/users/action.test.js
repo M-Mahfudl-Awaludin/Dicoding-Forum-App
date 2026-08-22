@@ -10,11 +10,6 @@ const mockStore = configureMockStore([thunk]);
 describe('asyncReceiveUsers thunk', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    console.warn.mockRestore();
   });
 
   it('should dispatch RECEIVE_USERS when the request succeeds', async () => {
@@ -29,13 +24,12 @@ describe('asyncReceiveUsers thunk', () => {
     ]);
   });
 
-  it('should not dispatch anything and log a warning when the request fails', async () => {
+  it('should not dispatch anything or throw when the request fails', async () => {
     api.getAllUsers.mockRejectedValue(new Error('Network error'));
 
     const store = mockStore({});
-    await store.dispatch(asyncReceiveUsers());
+    await expect(store.dispatch(asyncReceiveUsers())).resolves.not.toThrow();
 
     expect(store.getActions()).toHaveLength(0);
-    expect(console.warn).toHaveBeenCalled();
   });
 });
